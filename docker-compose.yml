@@ -1,0 +1,35 @@
+# 一条命令启动整个网站：docker compose up -d --build
+# 启动前先把 .env.example 复制成 .env 并填写域名。
+
+services:
+  # 网站本体
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    volumes:
+      - ./data:/data # 全部数据都在这个目录：shop.db 和 uploads/
+    expose:
+      - "3000"
+
+  # Caddy：自动申请和续期 HTTPS 证书，把访问转给上面的网站
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    environment:
+      DOMAIN: ${DOMAIN:?请先在 .env 文件里填写 DOMAIN（你的域名）}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy-data:
+  caddy-config:

@@ -1,0 +1,22 @@
+{
+  "name": "ai-shop",
+  "version": "1.0.0",
+  "private": true,
+  "description": "AI 商品展示网站：只做展示，访客通过微信 / QQ 联系购买",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js",
+    "reset-password": "node --disable-warning=ExperimentalWarning src/reset-password.js"
+  },
+  "dependencies": {
+    "@hono/node-server": "^2.1.7",
+    "hono": "^4.13.18",
+    "marked": "^18.2.0",
+    "sharp": "^0.35.5"
+  }
+}
