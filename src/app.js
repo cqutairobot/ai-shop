@@ -54,7 +54,15 @@ export function createApp(config) {
     };
   };
 
-  const ctx = { store, config, siteOf, asset };
+  /** 清理没有任何地方引用的旧图片（换封面、删商品之后留下的）。 */
+  const gc = async () => {
+    for (const id of store.orphanImageIds()) {
+      await removeImageFiles(store.uploadsDir, id);
+      store.removeImageRow(id);
+    }
+  };
+
+  const ctx = { store, config, siteOf, asset, gc };
   const app = new Hono();
 
   // 同站跳转保留来源地址：详情页靠它判断访客是不是从首页点进来的
@@ -91,13 +99,6 @@ export function createApp(config) {
     return c.html(statePage(siteOf(c), { title: '页面出错了', text: '服务器遇到了一点问题，请稍后再试。' }), 500);
   });
 
-  // 清理没有任何地方引用的旧图片
-  const gc = async () => {
-    for (const id of store.orphanImageIds()) {
-      await removeImageFiles(store.uploadsDir, id);
-      store.removeImageRow(id);
-    }
-  };
   gc().catch((e) => console.error('清理图片失败', e));
 
   return { app, store, notes, gc };

@@ -1,0 +1,143 @@
+/* 管理后台样式。沿用 site.css 的设计令牌，使用「安静模式」：没有极光背景和入场动画 */
+
+.adm{background:var(--bg)}
+.adm-wrap{max-width:1080px;margin:0 auto;padding:0 var(--gutter)}
+.muted{color:var(--text-3);font-size:13px}
+.danger{color:var(--danger)}
+
+/* 顶栏 */
+.adm-top{position:sticky;top:0;z-index:30;height:56px;background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.adm-top__in{height:100%;display:flex;align-items:center;gap:8px}
+.adm-brand{display:flex;align-items:center;gap:10px;font-weight:700;white-space:nowrap}
+.adm-nav{display:flex;gap:2px;margin-left:8px;overflow-x:auto;scrollbar-width:none}
+.adm-nav::-webkit-scrollbar{display:none}
+.adm-nav a{height:36px;padding:0 14px;border-radius:var(--r-full);display:inline-flex;align-items:center;font-size:14px;font-weight:500;color:var(--text-2);white-space:nowrap;transition:background var(--dur-2),color var(--dur-2)}
+.adm-nav a[aria-current="page"]{color:var(--text);background:var(--surface-hover)}
+@media(hover:hover){.adm-nav a:hover{color:var(--text)}}
+@media(max-width:640px){.adm-brand span:last-child,.adm-view span{display:none}.adm-view{padding:0 10px}.adm-nav{margin-left:0}.adm-nav a{padding:0 10px}}
+
+/* 页面骨架 */
+.adm-main{padding-top:24px;padding-bottom:120px;display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.adm-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.adm-head h1{display:flex;align-items:center;gap:10px;font-size:24px;line-height:1.3}
+.adm-head h1 small{font-size:13px;font-weight:400;color:var(--text-3)}
+.adm-tip{margin-top:-6px}
+.panel{padding:20px;border-radius:var(--r-lg);background:var(--surface-solid);border:1px solid var(--border);display:grid;grid-template-columns:minmax(0,1fr);gap:14px;align-content:start}
+.panel h2{font-size:17px}
+.blank{justify-items:center;text-align:center;padding:48px 20px}
+.adm .callout{margin:0}
+
+/* 表单控件 */
+.field{display:grid;gap:6px;border:0;padding:0;min-width:0}
+.field__label{font-size:13px;font-weight:600;color:var(--text-2)}
+.field__hint{font-size:12px;color:var(--text-3)}
+.field-row{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:start}
+.input{width:100%;height:44px;padding:0 12px;border-radius:var(--r-sm);border:1px solid var(--border-strong);background:var(--surface);color:var(--text);font-size:16px;outline:0;transition:border-color var(--dur-2),box-shadow var(--dur-2)}
+.adm textarea,.adm select{font-family:inherit}
+.input::placeholder{color:var(--text-3)}
+textarea.input{height:auto;padding:10px 12px;line-height:1.6;resize:vertical}
+select.input{-webkit-appearance:none;appearance:none;padding-right:34px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238A90A8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;background-size:16px}
+select.input option{background:var(--surface-solid);color:var(--text)}
+.input:focus{border-color:var(--accent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 20%,transparent)}
+.input.is-saved{border-color:var(--ok)}
+.check{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+.check input{width:18px;height:18px;flex:none;accent-color:var(--cta-from)}
+.seg{display:inline-flex;width:fit-content;max-width:100%;padding:3px;gap:2px;border-radius:var(--r-full);background:var(--surface-hover)}
+.seg label{position:relative;cursor:pointer}
+.seg input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.seg span{display:inline-flex;align-items:center;height:36px;padding:0 18px;border-radius:var(--r-full);font-size:14px;font-weight:500;color:var(--text-2);transition:background var(--dur-2),color var(--dur-2)}
+.seg input:checked+span{color:#fff;background:linear-gradient(135deg,var(--cta-from),var(--cta-to))}
+.seg input:focus-visible+span{outline:2px solid var(--accent-2);outline-offset:2px}
+.iconbtn--sm{width:36px;height:36px}
+.iconbtn--sm .ico{width:18px;height:18px}
+.iconbtn--danger{color:var(--danger)}
+.adm form{margin:0}
+
+/* 登录 */
+.login{max-width:380px;margin:12vh auto 0;text-align:center;padding:28px 24px}
+.login__logo{width:56px;height:56px;margin:0 auto}
+.login__logo .ico{width:26px;height:26px}
+.login h1{font-size:22px;overflow-wrap:anywhere}
+.login .field{text-align:left}
+
+/* 列表行：商品、分类 */
+.rows{list-style:none;padding:0;display:grid;gap:8px}
+.move{grid-area:move;display:grid;gap:2px}
+.move .iconbtn{width:28px;height:28px;border-radius:8px}
+.move .ico{width:14px;height:14px}
+.prow{display:grid;grid-template-columns:auto 64px minmax(0,1fr) 112px 100px auto;grid-template-areas:"move thumb main price status act";align-items:center;gap:12px;padding:10px 12px;border-radius:var(--r-md);background:var(--surface-solid);border:1px solid var(--border)}
+.prow__thumb{grid-area:thumb;display:block;border-radius:10px;overflow:hidden}
+.prow__thumb .cover__icon{width:50%;border-radius:30%}
+.prow__thumb .cover__icon .ico{stroke-width:2}
+.prow__main{grid-area:main;min-width:0;display:grid;gap:2px}
+.prow__name{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow__price{grid-area:price;font-family:var(--font-display);font-weight:600;text-align:right}
+.prow__status{grid-area:status}
+.prow__act{grid-area:act;display:flex;gap:4px;justify-content:flex-end}
+.prow.is-off .prow__thumb,.prow.is-off .prow__main{opacity:.45}
+.pin.is-on{color:#fff;background:linear-gradient(135deg,var(--cta-from),var(--cta-to));border-color:transparent}
+@media(max-width:760px){
+  .prow{grid-template-columns:28px 56px minmax(0,1fr) 104px;grid-template-areas:"move thumb main main" "price price price status" "act act act act";row-gap:10px}
+  .prow__price{text-align:left}
+}
+.crow{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:var(--r-md);background:var(--surface-solid);border:1px solid var(--border)}
+.crow__form{flex:1;min-width:0;display:flex;align-items:center;gap:10px}
+.crow__form .input{flex:1;min-width:0}
+.crow__n{white-space:nowrap}
+.addcat{display:flex;padding:12px}
+@media(max-width:560px){.crow__n{display:none}}
+
+/* 图标选择 */
+.iconpick{position:relative;flex:none}
+.iconpick summary{list-style:none;width:44px;height:44px;border-radius:var(--r-sm);display:grid;place-items:center;background:var(--surface);border:1px solid var(--border-strong);cursor:pointer;color:var(--accent-text)}
+.iconpick summary::-webkit-details-marker{display:none}
+.iconpick__list{position:absolute;z-index:5;top:calc(100% + 6px);left:0;display:grid;grid-template-columns:repeat(6,40px);gap:4px;padding:8px;border-radius:var(--r-md);background:var(--surface-solid);border:1px solid var(--border-strong);box-shadow:0 20px 40px -16px rgba(0,0,0,.5)}
+.iconpick__list label{position:relative;cursor:pointer}
+.iconpick__list input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.iconpick__list span:not(.sr){display:grid;place-items:center;width:40px;height:40px;border-radius:10px;color:var(--text-2)}
+.iconpick__list input:checked+span{color:#fff;background:linear-gradient(135deg,var(--cta-from),var(--cta-to))}
+.iconpick__list input:focus-visible+span{outline:2px solid var(--accent-2);outline-offset:2px}
+
+/* 商品表单 */
+.pform,.sform{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
+.pform__cols{display:grid;gap:16px;align-items:start}
+@media(min-width:900px){.pform__cols{grid-template-columns:3fr 2fr}}
+.upload{display:flex;gap:14px;align-items:flex-start}
+.upload__preview{width:150px;flex:none;border-radius:var(--r-sm);overflow:hidden;border:1px solid var(--border)}
+.upload__preview img{width:100%;height:100%;object-fit:cover}
+.upload__preview>img{aspect-ratio:4/3}
+.upload__preview--sq{width:96px;height:96px;display:grid;place-items:center;background:var(--surface)}
+.upload__preview--sq>img{aspect-ratio:1}
+.upload__preview--round{border-radius:50%}
+.upload__side{display:grid;gap:8px;justify-items:start;min-width:0}
+.editor__bar{display:flex;flex-wrap:wrap;gap:6px}
+.editor__bar button{height:34px;padding:0 12px;border-radius:var(--r-full);font-size:13px;color:var(--text);background:var(--surface-hover);transition:transform var(--dur-1)}
+.editor__bar button:active{transform:scale(.95)}
+.editor__bar mark{color:var(--accent-text);background:none;font-weight:600}
+.editor__panes{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;margin-top:10px}
+@media(min-width:900px){.editor__panes{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.editor__text{min-height:340px;font-size:15px}
+.editor__preview{display:grid;gap:6px;align-content:start;min-width:0}
+.editor__preview .prose{min-height:120px;max-height:70vh;overflow:auto;background:var(--surface)}
+.editor__preview .prose:empty::before{content:"这里会显示访客看到的效果";color:var(--text-3);font-size:14px}
+.editor.is-busy .editor__bar{opacity:.6;pointer-events:none}
+
+/* 底部保存栏 */
+.savebar{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:10px 0 calc(10px + env(safe-area-inset-bottom));background:color-mix(in srgb,var(--bg) 90%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-top:1px solid var(--border)}
+.savebar__in{display:flex;align-items:center;gap:10px}
+
+/* 店铺设置 */
+.swatches{display:flex;flex-wrap:wrap;gap:8px}
+.swatch{position:relative;display:flex;align-items:center;gap:8px;height:44px;padding:0 14px 0 8px;border-radius:var(--r-full);border:1px solid var(--border-strong);font-size:14px;cursor:pointer;transition:border-color var(--dur-2),box-shadow var(--dur-2)}
+.swatch input[type="radio"]{position:absolute;inset:0;opacity:0;cursor:pointer}
+.swatch i{width:28px;height:28px;border-radius:50%;background:conic-gradient(var(--a),var(--b),var(--c),var(--a))}
+.swatch input[type="color"]{position:relative;z-index:1;width:28px;height:28px;padding:0;border:0;border-radius:50%;background:none;cursor:pointer;overflow:hidden}
+.swatch input[type="color"]::-webkit-color-swatch-wrapper{padding:0}
+.swatch input[type="color"]::-webkit-color-swatch{border:0;border-radius:50%}
+.swatch:has(input[type="radio"]:checked){border-color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 24%,transparent)}
+.swatch:has(input[type="radio"]:focus-visible){outline:2px solid var(--accent-2);outline-offset:2px}
+.pwform{display:grid;gap:14px;max-width:360px;justify-items:start}
+.pwform .field{width:100%}
+.data-act{display:flex;flex-wrap:wrap;gap:10px}
+
+.toast.is-bad i{background:var(--danger)}
