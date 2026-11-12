@@ -1,0 +1,5 @@
+# 域名来自 .env 里的 DOMAIN。Caddy 会自动为它申请并续期 HTTPS 证书。
+{$DOMAIN} {
+	encode zstd gzip
+	reverse_proxy app:3000
+}

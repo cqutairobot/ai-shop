@@ -66,23 +66,31 @@ export function createApp(config) {
   const app = new Hono();
 
   // 同站跳转保留来源地址：详情页靠它判断访客是不是从首页点进来的
-  app.use(secureHeaders({ crossOriginResourcePolicy: false, crossOriginOpenerPolicy: false, xFrameOptions: 'SAMEORIGIN', referrerPolicy: 'strict-origin-when-cross-origin' }));
+  // 不在这里发 HSTS：它会影响同域名下的其他子站，是否启用交给前面的 Caddy / Nginx 决定
+  app.use(
+    secureHeaders({
+      crossOriginResourcePolicy: false,
+      crossOriginOpenerPolicy: false,
+      strictTransportSecurity: false,
+      xFrameOptions: 'SAMEORIGIN',
+      referrerPolicy: 'strict-origin-when-cross-origin',
+    }),
+  );
   app.use(compress());
 
   // 静态资源：带版本号的长期缓存，上传的图片文件名是随机的，同样长期缓存
   const longCache = 'public, max-age=31536000, immutable';
-  const staticOpts = {
-    root: path.relative(process.cwd(), PUBLIC_DIR) || '.',
-    onFound: (p, c) => c.header('Cache-Control', c.req.query('v') || p.includes('/fonts/') ? longCache : 'public, max-age=3600'),
+  const withCache = (rule) => async (c, next) => {
+    await next();
+    if (c.res.ok) c.header('Cache-Control', rule(c));
   };
-  for (const prefix of ['/css/*', '/js/*', '/fonts/*', '/favicon.svg', '/robots.txt']) app.use(prefix, serveStatic(staticOpts));
+  const assetCache = withCache((c) => (c.req.query('v') || c.req.path.startsWith('/fonts/') ? longCache : 'public, max-age=3600'));
+  const publicFiles = serveStatic({ root: path.relative(process.cwd(), PUBLIC_DIR) || '.' });
+  for (const prefix of ['/css/*', '/js/*', '/fonts/*', '/favicon.svg', '/robots.txt']) app.use(prefix, assetCache, publicFiles);
   app.use(
     '/uploads/*',
-    serveStatic({
-      root: path.relative(process.cwd(), store.uploadsDir) || '.',
-      rewriteRequestPath: (p) => p.replace(/^\/uploads/, ''),
-      onFound: (_p, c) => c.header('Cache-Control', longCache),
-    }),
+    withCache(() => longCache),
+    serveStatic({ root: path.relative(process.cwd(), store.uploadsDir) || '.', rewriteRequestPath: (p) => p.replace(/^\/uploads/, '') }),
   );
 
   app.get('/healthz', (c) => c.text('ok'));

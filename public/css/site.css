@@ -188,6 +188,7 @@ img{max-width:100%}
 @media(min-width:1024px){.grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}}
 .card{position:relative;display:flex;flex-direction:column;border-radius:var(--r-lg);background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow-card);overflow:hidden;transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(var(--lift,0px)) scale(var(--s,1));transition:transform var(--dur-2) var(--ease-out),box-shadow var(--dur-3),border-color var(--dur-2)}
 .js .card.pre{opacity:0}
+.no-intro .card.pre{opacity:1} /* 从详情页返回时不重播入场，卡片立即可见，封面才能参与转场 */
 .card:active{--s:.97}
 .card::before{content:"";position:absolute;inset:0;z-index:2;pointer-events:none;background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),color-mix(in srgb,var(--accent) 24%,transparent),transparent 70%);opacity:0;transition:opacity var(--dur-3)}
 .card::after{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;border-radius:inherit;padding:1px;background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),var(--accent-2),var(--accent) 38%,transparent 70%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity var(--dur-3)}
